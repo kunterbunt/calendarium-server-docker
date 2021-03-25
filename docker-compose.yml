@@ -1,6 +1,6 @@
 version: "3"
 services:
-  seba-cc-rest:
+  webshop-rest:
     image: calendarium-shop:latest
     container_name: "calendarium-shop"    
     volumes:
@@ -22,12 +22,12 @@ services:
       - SHOP_ERR_EMAIL_SMTP_PORT="YOUR-EMAIL-PROVIDER-SMTP-PORT"
     restart: always 
 
-  seba-cc-nginx:
+  webshop-nginx:
     image: nginx:stable
     container_name: "calendarium-website"
     ports:
       - 80:80    
     volumes:
-      - /home/seba/web/calendariumculinarium.de/public:/usr/share/nginx/html
+      - /website-repo/public:/usr/share/nginx/html
       - ./nginx/config/:/etc/nginx
     restart: always  
