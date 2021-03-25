@@ -1,0 +1,33 @@
+version: "3"
+services:
+  seba-cc-rest:
+    image: calendarium-shop:latest
+    container_name: "calendarium-shop"    
+    volumes:
+      - ./db:/mnt/db
+      - ./run:/mnt/run      
+    environment:
+      - BILLBEE_API_KEY="YOUR-API-KEY" 
+      - BILLBEE_API_USERNAME="YOUR-API-USER" 
+      - BILLBEE_API_PASSWORD="YOUR-API-PASSWORD" 
+      - BILLBEE_API_URL="https://app.billbee.io/api/v1/orders?shopId=YOUR_SHOP_ID" 
+      - SHOP_AUTH_USERNAME="YOUR-SHOP-ADMIN-USER" 
+      - SHOP_AUTH_PASSWORD="YOUR-SHOP-ADMIN-PASSWORD" 
+      - SHOP_FORWARD_TO_BILLBEE=1
+      - SHOP_ERR_EMAIL_FROM="YOUR-EMAIL-ADDRESS" 
+      - SHOP_ERR_EMAIL_TO_FIRST="DESTINATION-EMAIL-1-UPON-ERROR" 
+      - SHOP_ERR_EMAIL_TO_SECOND="DESTINATION-EMAIL-2-UPON-ERROR" 
+      - SHOP_ERR_EMAIL_PASSWORD="YOUR-EMAIL-ACCOUNT-PASSWORD" 
+      - SHOP_ERR_EMAIL_SMTP_HOST="YOUR-EMAIL-PROVIDER-SMTP-HOST" 
+      - SHOP_ERR_EMAIL_SMTP_PORT="YOUR-EMAIL-PROVIDER-SMTP-PORT"
+    restart: always 
+
+  seba-cc-nginx:
+    image: nginx:stable
+    container_name: "calendarium-website"
+    ports:
+      - 80:80    
+    volumes:
+      - /home/seba/web/calendariumculinarium.de/public:/usr/share/nginx/html
+      - ./nginx/config/:/etc/nginx
+    restart: always  
